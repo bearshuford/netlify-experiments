@@ -1,22 +1,15 @@
-// const TMDB = require("../api/tmdb");
-import TMDB from '../api/tmdb';
-// import querystring from 'querystring';
+import fetch from 'node-fetch';
+
+const movieDbApiRootUrl = 'https://api.themoviedb.org/3'
+const baseUrl = `${movieDbApiRootUrl}/search/multi?api_key=${process.env.movieDbApiKey}`
 
 exports.handler = async (event) => {
-  // Only allow POST
-  if (event.httpMethod !== "POST") {
+  if (event.httpMethod !== "GET")
     return { statusCode: 405, body: "Method Not Allowed" };
-  }
 
-  // const params = querystring.parse(event.body);
-  
-  await TMDB.searchMulti({ query: "fargo" })
-  .then(function(res) {})
-  .catch(function(){});
-  
-  return {
-    statusCode: 200,
-    body: `Hello`,
-  };
+  const { query } = event.queryStringParameters;
+  const response = await fetch(`${baseUrl}&query=${query}`, { 'content-type': 'application/json' })
+  const movieData = await response.text();
 
+  return { statusCode: 200, body: movieData };
 };

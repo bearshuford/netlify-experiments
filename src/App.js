@@ -1,36 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
-class App extends React.Component {
+const baseUrl = '.netlify/functions/multisearch'
 
-  componentDidMount() {
-    fetch(".netlify/functions/lamda")
-    .then(response => response.json())
-    .then(data => console.log(data));
-  }
+function App() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
 
-    render () {
+  useEffect(() => {
+    fetch(`${baseUrl}?query=${query}`, { mode: 'cors' })
+      .then(response => response.json())
+      .then(({ results }) => {
+        console.log(results);
+        setResults(results);
+      })
+      .catch(() => { })
+  }, [query]);
 
-      return (
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
-          </header>
-        </div>
-      );
-    }
+  return (
+    <div className='app'>
+      <label>
+        search for movies, tv shows, &amp; actors
+      </label>
+      <input
+        alt='search'
+        onChange={({ target }) => setQuery(target.value)}
+        value={query}
+      />
+      <ul>
+        {!!results && 
+          results.map(({ name, id }) => !!name && <li key={id}>{name}</li>)
+        }
+      </ul>
+    </div>
+  );
 }
+
 
 export default App;

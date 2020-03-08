@@ -20,10 +20,10 @@
     "eject": "react-scripts eject",
     "start": "npm-run-all --parallel start:app start:server",
     "start:app": "react-scripts start",
-    "start:server": "netlify-lambda serve ./functions",
+    "start:server": "netlify-lambda serve ./functions --config ./webpack.functions.js",
     "build": "npm-run-all --parallel build:**",
     "build:app": "react-scripts build",
-    "build:functions": "netlify-lambda build ./functions"
+    "build:functions": "netlify-lambda build ./functions --config ./webpack.functions.js"
   },
   "eslintConfig": {
     "extends": "react-app"
