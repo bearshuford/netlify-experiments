@@ -1,3 +1,10 @@
+const imgUrlPrefix = 'https://image.tmdb.org/t/p/w154/';
+
+const prefixImage = path => {
+  if(!path) return null;
+  else return imgUrlPrefix + path;
+}
+
 // https://stackoverflow.com/a/46431916
 const groupBy = (items, key) => items.reduce(
   (result, item) => ({
@@ -14,18 +21,18 @@ const processPerson = ({
   name,
   id,
   known_for_department: department,
-  profile_path: poster,
+  profile_path,
 }) => ({
   name,
   id,
   department,
-  poster
+  poster: prefixImage(profile_path)
 });
 
 const processTv = ({
   name,
   id,
-  poster_path: poster,
+  poster_path,
   original_language: language,
   overview,
   popularity,
@@ -33,7 +40,7 @@ const processTv = ({
 }) => ({
   name,
   id,
-  poster,
+  poster: prefixImage(poster_path),
   language,
   overview,
   popularity,
@@ -43,7 +50,7 @@ const processTv = ({
 const processMovie = ({
   title: name,
   id,
-  poster_path: poster,
+  poster_path,
   original_language: language,
   overview,
   popularity,
@@ -51,7 +58,7 @@ const processMovie = ({
 }) => ({
   name,
   id,
-  poster,
+  poster: prefixImage(poster_path),
   language,
   overview,
   popularity,
@@ -59,7 +66,12 @@ const processMovie = ({
 });
 
 const processResults = results => {
-  const { tv, movie, person } = groupBy(results, 'media_type')
+  const {
+    tv = [],
+    movie = [],
+    person = [],
+  } = groupBy(results, 'media_type');
+
   return {
     person: person.map(processPerson),
     tv: tv.map(processTv),
