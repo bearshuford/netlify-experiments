@@ -9,10 +9,10 @@ function App() {
   return (
     <div className='app'>
       <label>
-        search for movies, tv shows, &amp; actors
+        search for movies, tv shows, &amp; people
       </label>
       <input
-        alt='search'
+        autoFocus
         onChange={({ target }) => setQuery(target.value)}
         value={query}
       />
