@@ -12,7 +12,7 @@ const useMultisearch = (query) => {
     setLoading(true);
     setError(null);
 
-    const apiUrl = `.netlify/functions/multisearch?query=${query}`
+    const apiUrl = `.netlify/functions/multisearch?query=${query}&stream=true`
   
     fetch(apiUrl, { mode: 'cors' })
       .then(res => res.json())

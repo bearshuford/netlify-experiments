@@ -9,7 +9,7 @@ function App() {
   return (
     <div className='app'>
       <label>
-        search for movies, tv shows, &amp; people
+        search for movies and tv shows
       </label>
       <input
         autoFocus

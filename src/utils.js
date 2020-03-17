@@ -1,9 +1,15 @@
-const imgUrlPrefix = 'https://image.tmdb.org/t/p/w154/';
+const imgUrlPrefix = 'https://image.tmdb.org/t/p/original/';
 
 const prefixImage = path => {
-  if(!path) return null;
+  if (!path) return null;
   else return imgUrlPrefix + path;
 }
+
+// const formatStream = (id, season, episode) => { 
+//   if(!season && !episode) return streamUrlPrefix + id;
+//   // else if (!!episode) return '???';
+//   else return null;
+// }
 
 // https://stackoverflow.com/a/46431916
 const groupBy = (items, key) => items.reduce(
@@ -55,6 +61,7 @@ const processMovie = ({
   overview,
   popularity,
   release_date: release,
+  stream
 }) => ({
   name,
   id,
@@ -62,10 +69,12 @@ const processMovie = ({
   language,
   overview,
   popularity,
-  release
+  release,
+  stream
 });
 
 const processResults = results => {
+  console.log('results', results);
   const {
     tv = [],
     movie = [],
