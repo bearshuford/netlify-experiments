@@ -1,42 +1,33 @@
 import React from 'react';
+import { TvMovieCard, PersonCard, ErrorBlock } from '.';
 import { useMultisearch } from '../hooks';
 
-const TvMovieItem = ({
-  name,
-  poster,
-  overview,
-  stream
-}) =>
-  <div
-    className={'movie-item search-result ' + !!stream && 'stream'}
-    onClick={ () => {!!stream && (window.location = stream)}}
-  >
-    <div className='image-wrapper'>
-      {!!poster && <img alt={name + ' poster'} src={poster} />}
-    </div>
-    <div>
-      <h4>{name}</h4>
-      <p>{overview}</p>
-      {!!stream && <a href={stream}>watch stream</a>}
-    </div>
-  </div>;
-
-const ErrorBlock = ({ error }) => <>
-  <h4>error:</h4>
-  <pre>{!!error && error.toString()}</pre>
-</>;
-
-const ResultsSection = ({ type, results }) =>
+const ResultsSection = ({ type, results, setSeries, setCredits }) =>
   !!results[type] && results[type].length > 0 &&
   <>
     <h3>{type}</h3>
-    {results[type].map(({ id, ...props }) =>
-      <TvMovieItem {...props} key={id} />
-    )}
+    {type !== 'person'
+      ?
+      results[type].map(props =>
+        <TvMovieCard
+          {...props}
+          key={props.id}
+          setSeries={type === 'tv' && setSeries}
+        />
+      )
+      :
+      results[type].map(props =>
+        <PersonCard
+          {...props}
+          key={props.id}
+          setCredits={setCredits}
+        />
+      )
+    }
   </>;
 
 
-const SearchResults = ({ query }) => {
+const SearchResults = ({ query, setSeries, setCredits }) => {
   const { results, loading, error } = useMultisearch(query);
 
   if (!!loading) return <h4>'loading...'</h4>;
@@ -44,11 +35,13 @@ const SearchResults = ({ query }) => {
   if (!results) return null;
 
   return <>
-    {['movie', 'tv'].map(type =>
+    {['movie', 'tv', 'person'].map(type =>
       <ResultsSection
         type={type}
         results={results}
         key={type}
+        setSeries={setSeries}
+        setCredits={setCredits}
       />)}
   </>;
 }

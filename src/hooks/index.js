@@ -1,3 +1,5 @@
 import useMultisearch from './multisearch';
+import useSeriesDetails from './seriesdetails';
+import useCredits from './personcredits';
 
-export { useMultisearch };
+export { useMultisearch, useSeriesDetails, useCredits };

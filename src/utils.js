@@ -39,18 +39,24 @@ const processTv = ({
   name,
   id,
   poster_path,
+  backdrop_path,
   original_language: language,
   overview,
   popularity,
   release_date: release,
+  character,
+  epsode_count,
 }) => ({
   name,
   id,
   poster: prefixImage(poster_path),
+  backdrop: prefixImage(backdrop_path),
   language,
   overview,
   popularity,
-  release
+  release,
+  character,
+  episodeCount: epsode_count,
 });
 
 const processMovie = ({
@@ -61,7 +67,8 @@ const processMovie = ({
   overview,
   popularity,
   release_date: release,
-  stream
+  character,
+  stream,
 }) => ({
   name,
   id,
@@ -70,11 +77,37 @@ const processMovie = ({
   overview,
   popularity,
   release,
-  stream
+  character,
+  stream,
 });
 
+
+
+const processSeriesDetails = ({
+  id,
+  name,
+  overview,
+  seasons = [],
+  poster_path,
+  backdrop_path,
+  popularity,
+  homepage,
+  streamUrlPrefix,
+}) => ({
+  id,
+  name,
+  overview,
+  seasons,
+  poster: prefixImage(poster_path),
+  backdrop: prefixImage(backdrop_path),
+  popularity,
+  homepage,
+  streamUrlPrefix,
+});
+
+
+
 const processResults = results => {
-  console.log('results', results);
   const {
     tv = [],
     movie = [],
@@ -88,4 +121,14 @@ const processResults = results => {
   }
 }
 
-export { processResults };
+
+const processCredits = ({ cast, crew, ...other }) => {
+  const {
+    tv = [],
+    movie = [],
+  } = groupBy(cast, 'media_type');
+  
+  return { tv, movie };
+}
+
+export { processResults, processSeriesDetails, processCredits };

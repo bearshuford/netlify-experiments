@@ -25,27 +25,27 @@ p {
   padding: 32px 0;
 }
 
-.app > div {
+.app > div.search-result {
   font-size: 12px;
   margin-bottom: 28px;
 }
 
-.app > div.stream {
+.app > div.search-result.stream {
   cursor: pointer;
 }
 
-.app > div.stream:hover {
+.app > div.search-result.stream:hover {
   background-color: #ddd;
 }
 
-.app > div p {
+.app > div.search-result p {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;  
   overflow: hidden;
 }
 
-.app > div a {
+.app > div.search-result a {
   width: 100%;
   display: inline-block;
   text-align: right;
@@ -76,7 +76,7 @@ img {
     font-size: 27px;
   }
 
-  .app > div  {
+  .app > div.search-result  {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 8px;
@@ -86,7 +86,7 @@ img {
   }
 
 
-  .app > div > div:not(.image-wrapper)  {
+  .app > div.search-result > div:not(.image-wrapper)  {
     width: 72%;
     flex-grow: 1;
     flex-shrink: 0;

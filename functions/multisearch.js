@@ -14,13 +14,10 @@ exports.handler = async (event) => {
   const movieDataArr = await JSON.parse(movieData);
 
   if (!!stream) {
-    console.log('stream', stream, movieDataArr);
     if (!!movieDataArr && !!movieDataArr.results) {
-
       const processedArr = await movieDataArr.results.map(
         item => {
           let stream = null;
-          console.log('item', item['media_type'], item['media_type'] === 'movie', `${streamUrlPrefix}${item.id.toString()}` )
           if (item['media_type'] === 'movie') {
             stream = `${streamUrlPrefix}${item.id.toString()}`;
           }
