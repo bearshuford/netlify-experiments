@@ -3,8 +3,8 @@ import React from 'react';
 import { TvMovieCard, ErrorBlock } from '.';
 import { useCredits } from '../hooks';
 
-const Credits = ({ id, setSeries }) => {
-  const { results, loading, error } = useCredits(id);
+const Credits = ({ id, setSeries, auth }) => {
+  const { results, loading, error } = useCredits(id, auth);
 
   if (!!loading) return <h4>'loading...'</h4>;
   if (!!error) return <ErrorBlock {...error} />

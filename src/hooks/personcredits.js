@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { processCredits } from '../utils';
 
-const useSeriesDetails = (id) => {
+import { AuthContext } from '../AuthContext';
+
+const useSeriesDetails = id => {
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const { auth } = useContext(AuthContext)
   
   // TODO: handle empty string
 
@@ -12,7 +16,7 @@ const useSeriesDetails = (id) => {
     setLoading(true);
     setError(null);
 
-    const apiUrl = `.netlify/functions/personcredits?id=${id}&stream=true`
+    const apiUrl = `.netlify/functions/personcredits?id=${id}&auth=${auth}`
   
     fetch(apiUrl, { mode: 'cors' })
       .then(res => res.json())
@@ -24,7 +28,7 @@ const useSeriesDetails = (id) => {
         setError(err)
         setLoading(false)
       })
-  }, [id])
+  }, [id, auth])
 
   return { results, loading, error }
 }

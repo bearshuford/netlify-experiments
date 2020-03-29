@@ -2,12 +2,11 @@ import React from 'react';
 import { ErrorBlock } from '.'
 import { useSeriesDetails } from '../hooks';
 
-const SeriesDetails = ({ id }) => {
-  const { results, loading, error } = useSeriesDetails(id);
+const SeriesDetails = ({ id, auth }) => {
+  const { results, loading, error } = useSeriesDetails(id, auth);
   const {
     name,
     seasons,
-    overview,
     backdrop,
     streamUrlPrefix,
   } = results;
@@ -27,7 +26,7 @@ const SeriesDetails = ({ id }) => {
       season_number,
     }, i) => {
       const episodes = streamUrlPrefix && [...Array(episode_count).keys()].map(j => {
-        const href = `${streamUrlPrefix}${id}&type=series&season=${season_number}&episode=${(j+1)}`;
+        const href = `${streamUrlPrefix}${id}&season=${season_number}&episode=${(j+1)}`;
         return <li>
           <a key={seasonId + '-' + j} href={href}>
             {'Episode ' + (j + 1)}

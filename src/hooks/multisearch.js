@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { processResults } from '../utils';
 
-const useMultisearch = (query) => {
+import {AuthContext} from '../AuthContext';
+
+const useMultisearch = query => {
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const { auth, setAuth } = useContext(AuthContext)
   
   // TODO: handle empty string
 
@@ -12,19 +16,23 @@ const useMultisearch = (query) => {
     setLoading(true);
     setError(null);
 
-    const apiUrl = `.netlify/functions/multisearch?query=${query}&stream=true`
-  
+    const apiUrl = `.netlify/functions/multisearch?query=${query}&auth=${auth}`;
+    
     fetch(apiUrl, { mode: 'cors' })
-      .then(res => res.json())
-      .then(({ results }) => {
-        setLoading(false)
+    .then(res => res.json())
+    .then(({ results, userKey }) => {
+      setLoading(false)
+      if(!!userKey && userKey.length > 1) {
+          window.localStorage.setItem('userKey', userKey);
+          setAuth(userKey)
+        }
         setResults(processResults(results));
       })
       .catch(err => {
         setError(err)
         setLoading(false)
       })
-  }, [query])
+  }, [query, auth])
 
   return { results, loading, error }
 }

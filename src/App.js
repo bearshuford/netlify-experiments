@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SearchResults, SeriesDetails, Credits } from './components';
 
+import { AuthContext } from './AuthContext';
 import './App.css';
 
 function App() {
@@ -8,6 +9,15 @@ function App() {
   const [series, setSeries] = useState('');
   const [credits, setCredits] = useState('');
   const [title, setTitle] = useState('');
+
+  const { setAuth } = useContext(AuthContext)
+
+  useEffect(() => {
+    try {
+      const item = window.localStorage.getItem('userKey');
+      if(!!item) setAuth(item);
+    } catch (error) {}
+  }, []);
 
   return <div className='app'>
     {!!title && <h1>{title}</h1>}
@@ -20,7 +30,6 @@ function App() {
         : !!credits ?
           <Credits
             id={credits}
-            setSeries
             closeDetails={() => { setCredits(''); setTitle(''); }}
             setSeries={id => setSeries(id)}
           />

@@ -27,8 +27,8 @@ const ResultsSection = ({ type, results, setSeries, setCredits }) =>
   </>;
 
 
-const SearchResults = ({ query, setSeries, setCredits }) => {
-  const { results, loading, error } = useMultisearch(query);
+const SearchResults = ({ query, setSeries, setCredits, auth, setAuth }) => {
+  const { results, loading, error } = useMultisearch(query, auth, setAuth);
 
   if (!!loading) return <h4>'loading...'</h4>;
   if (!!error) return <ErrorBlock {...error} />
