@@ -6,9 +6,10 @@ const PersonCard = ({
   name,
   poster
 }) =>
-  <div
+  <a
     onClick={() => setCredits(id, name)}
     className='person-item search-result'
+    href='# '
   >
     <div className='image-wrapper'>
       {!!poster && <img alt={name + ' poster'} src={poster} />}
@@ -16,6 +17,6 @@ const PersonCard = ({
     <div>
       <h4>{name}</h4>
     </div>
-  </div>;
+  </a>;
 
 export default PersonCard;

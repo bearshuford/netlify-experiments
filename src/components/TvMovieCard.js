@@ -8,7 +8,8 @@ const TvMovieCard = ({
   stream,
   setSeries,
 }) =>
-  <div
+  <a
+    href='# '
     className={'movie-item search-result ' + (!!stream && 'stream') + (!!setSeries && ' series')}
     onClick={() => {
       if (!!setSeries)
@@ -23,8 +24,8 @@ const TvMovieCard = ({
     <div>
       <h4>{name}</h4>
       <p>{overview}</p>
-      {!!stream && <a href={stream}>watch stream</a>}
+      {!!stream && <a tabIndex='-1' href={stream}>watch stream</a>}
     </div>
-  </div>;
+  </a>;
 
   export default TvMovieCard;

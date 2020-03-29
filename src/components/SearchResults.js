@@ -2,7 +2,12 @@ import React from 'react';
 import { TvMovieCard, PersonCard, ErrorBlock } from '.';
 import { useMultisearch } from '../hooks';
 
-const ResultsSection = ({ type, results, setSeries, setCredits }) =>
+const ResultsSection = ({
+  type,
+  results,
+  setSeries,
+  setCredits,
+}) =>
   !!results[type] && results[type].length > 0 &&
   <>
     <h3>{type}</h3>
