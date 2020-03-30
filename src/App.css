@@ -51,6 +51,10 @@ p {
   overflow: hidden;
 }
 
+.app > a.search-result:focus p {
+  -webkit-line-clamp: unset;
+}
+
 .app > a.search-result a {
   width: 100%;
   display: inline-block;

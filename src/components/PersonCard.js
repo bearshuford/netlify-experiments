@@ -7,6 +7,7 @@ const PersonCard = ({
   poster
 }) =>
   <a
+    tabIndex='0'
     onClick={() => setCredits(id, name)}
     className='person-item search-result'
     href='# '

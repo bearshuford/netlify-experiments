@@ -40,7 +40,7 @@ const SearchResults = ({ query, setSeries, setCredits, auth, setAuth }) => {
   if (!results) return null;
 
   return <>
-    {['movie', 'tv', 'person'].map(type =>
+    {['movie', 'tv', 'person'].map((type, i, arr) =>
       <ResultsSection
         type={type}
         results={results}

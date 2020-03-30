@@ -27,14 +27,14 @@ const SeriesDetails = ({ id, auth }) => {
     }, i) => {
       const episodes = streamUrlPrefix && [...Array(episode_count).keys()].map(j => {
         const href = `${streamUrlPrefix}${id}&season=${season_number}&episode=${(j+1)}`;
-        return <li>
-          <a key={seasonId + '-' + j} href={href}>
+        return <li key={seasonId + '-' + j}>
+          <a href={href} tabIndex='0'>
             {'Episode ' + (j + 1)}
           </a>
         </li>;
       });
 
-      return <div key={seasonId + name}>
+      return <div>
         <h2>{name}</h2>
         <p> {overview} </p>
         <ul>

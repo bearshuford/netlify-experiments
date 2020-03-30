@@ -7,15 +7,15 @@ const TvMovieCard = ({
   overview,
   stream,
   setSeries,
-}) =>
-  <a
+  isFocused
+}) => {
+  return <a
+    tabIndex='0'
     href='# '
     className={'movie-item search-result ' + (!!stream && 'stream') + (!!setSeries && ' series')}
     onClick={() => {
-      if (!!setSeries)
-        setSeries(id)
-      else if (!!stream)
-        window.location = stream;
+      if (!!setSeries) setSeries(id)
+      else if (!!stream) window.location = stream;
     }}
   >
     <div className='image-wrapper'>
@@ -24,8 +24,7 @@ const TvMovieCard = ({
     <div>
       <h4>{name}</h4>
       <p>{overview}</p>
-      {!!stream && <a tabIndex='-1' href={stream}>watch stream</a>}
     </div>
   </a>;
-
-  export default TvMovieCard;
+}
+export default TvMovieCard;

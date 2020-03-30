@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mixer/arcade-machine-react": "^1.1.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "encoding": "^0.1.12",
+    "joypad.js": "^2.1.4",
     "moviedb-promise": "^1.5.0",
     "netlify-lambda": "^1.6.3",
     "node-fetch": "^2.6.0",
@@ -14,7 +16,9 @@
     "querystring": "^0.2.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-scripts": "3.4.0"
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.0",
+    "react-toastify": "^5.5.0"
   },
   "scripts": {
     "test": "react-scripts test",
