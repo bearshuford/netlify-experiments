@@ -4,6 +4,7 @@ import Credits from './Credits';
 import PersonCard from './PersonCard';
 import TvMovieCard from './TvMovieCard';
 import ErrorBlock from './ErrorBlock';
+import Vid from './Vid';
 
 export {
   SearchResults,
@@ -11,5 +12,6 @@ export {
   Credits,
   PersonCard,
   TvMovieCard,
-  ErrorBlock
+  ErrorBlock,
+  Vid
 };

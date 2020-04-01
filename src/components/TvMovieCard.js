@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const LinkOrAnchor = ({ type, children, to, href, ...props }) => {
+import { Vid } from '.';
+
+const LinkOrAnchor = ({ type, children, to, onClick, ...props }) => {
   if (type === 'movie')
     return <a
       tabIndex='0'
-      href={href}
-      disabled={!href}
+      onClick={onClick}
+      disabled={!onClick}
       {...props}
     >
       {children}
@@ -25,19 +27,23 @@ const TvMovieCard = ({
   stream,
   type,
 }) => {
+  const [showStream, setShowStream] = useState(false);
+
   return <LinkOrAnchor
     to={`/series/${id}`}
     className={'movie-item search-result ' + (!!stream && 'stream')}
-    href={stream}
+    onClick={!!stream ? () => setShowStream(true) : null}
     type={type}
   >
-    <div className='image-wrapper'>
-      {!!poster && <img alt={name + ' poster'} src={poster} />}
-    </div>
-    <div>
-      <h4>{name}</h4>
-      <p>{overview}</p>
-    </div>
+    <Vid url={stream} show={showStream && !!stream}>
+      <div className='image-wrapper'>
+        {!!poster && <img alt={name + ' poster'} src={poster} />}
+      </div>
+      <div>
+        <h4>{name}</h4>
+        <p>{overview}</p>
+      </div>
+    </Vid>
   </LinkOrAnchor>;
 }
 export default TvMovieCard;
