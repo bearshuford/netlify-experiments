@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ErrorBlock } from '.'
+import { ErrorBlock, Vid } from '.'
 import { useSeriesDetails } from '../hooks';
 
 const SeriesDetails = () => {
   const { id } = useParams();
+  const [showStream, setShowStream] = useState('');
   const { results, loading, error } = useSeriesDetails(id);
   const {
     name,
@@ -19,33 +20,43 @@ const SeriesDetails = () => {
   if (!results) return null;
 
   return <>
-    <img src={backdrop} alt={name + ' backdrop'} />
+    <Vid url={showStream} show={!!showStream}>
+      <img src={backdrop} alt={name + ' backdrop'} />
+    </Vid>
     <h1> {name} </h1>
-    {seasons && seasons.map(({
-      episode_count,
-      id: seasonId,
-      name,
-      overview,
-      season_number,
-    }, i) => {
-      const episodes = streamUrlPrefix && [...Array(episode_count).keys()].map(j => {
-        const href = `${streamUrlPrefix}${id}&season=${season_number}&episode=${(j+1)}`;
-        return <li key={seasonId + '-' + j}>
-          <a href={href} tabIndex='0'>
-            {'Episode ' + (j + 1)}
-          </a>
-        </li>;
-      });
+    <div class='season-list'>
+      {seasons && seasons.map(({
+        episode_count,
+        id: seasonId,
+        name,
+        overview,
+        season_number,
+      }, i) => {
+        if (name === 'Specials') return null;
 
-      return <div>
-        <h2>{name}</h2>
-        <p> {overview} </p>
-        <ul>
-          { episodes }
-        </ul>
-      </div>
-    }
-    )}
+        const episodes = streamUrlPrefix && [...Array(episode_count).keys()].map(j => {
+          const url = `${streamUrlPrefix}${id}&season=${season_number}&episode=${(j + 1)}`;
+          const onClick = e => {
+            e.preventDefault();
+            setShowStream(url);
+            return false;
+          };
+          return <li key={seasonId + '-' + j}>
+            <a href='# ' onClick={onClick} tabIndex='0'>
+              {'Episode ' + (j + 1)}
+            </a>
+          </li>;
+        });
+
+        return <div className='season'>
+          <h2>{name}</h2>
+          <p> {overview} </p>
+          <ul>
+            {episodes}
+          </ul>
+        </div>
+      })}
+    </div>
   </>;
 }
 
