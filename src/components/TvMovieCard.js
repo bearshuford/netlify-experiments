@@ -1,13 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const LinkOrAnchor = ({ type, children, to, onClick, ...props }) => {
+const LinkOrAnchor = ({ type, children, to, href, ...props }) => {
   if (type === 'movie')
-    return <a href='# ' onClick={onClick} {...props}>
+    return <a
+      tabIndex='0'
+      href={href}
+      disabled={!href}
+      {...props}
+    >
       {children}
     </a>;
-  else 
-    return <Link {...props} to={to}>{children}</Link>
+  else
+    return <Link tabIndex='0' {...props} to={to}>
+      {children}
+    </Link>
 }
 
 const TvMovieCard = ({
@@ -16,13 +23,13 @@ const TvMovieCard = ({
   poster,
   overview,
   stream,
-  type
+  type,
 }) => {
   return <LinkOrAnchor
-    tabIndex='0'
     to={`/series/${id}`}
     className={'movie-item search-result ' + (!!stream && 'stream')}
-    onClick={() => { window.location = stream; }}
+    href={stream}
+    type={type}
   >
     <div className='image-wrapper'>
       {!!poster && <img alt={name + ' poster'} src={poster} />}
