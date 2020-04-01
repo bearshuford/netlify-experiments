@@ -3,19 +3,20 @@ import { processSeriesDetails } from '../utils';
 
 import { AuthContext } from '../AuthContext';
 
-const useSeriesDetails = (id) => {
+const useSeriesDetails = id => {
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { auth } = useContext(AuthContext)
-  
+  const { auth } = useContext(AuthContext);
+
   useEffect(() => {
     setLoading(true);
     setError(null);
 
-    const apiUrl = `.netlify/functions/seriesdetails?id=${id}&auth=${auth}`
-  
+    const { origin } = window.location;
+    const apiUrl = `${origin}/.netlify/functions/seriesdetails?id=${id}&auth=${auth}`
+
     fetch(apiUrl, { mode: 'cors' })
       .then(res => res.json())
       .then(results => {

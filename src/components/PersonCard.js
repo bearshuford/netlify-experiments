@@ -1,16 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const PersonCard = ({
-  setCredits,
   id,
   name,
   poster
 }) =>
-  <a
+  <Link
     tabIndex='0'
-    onClick={() => setCredits(id, name)}
+    to={`/person/${id}`}
     className='person-item search-result'
-    href='# '
   >
     <div className='image-wrapper'>
       {!!poster && <img alt={name + ' poster'} src={poster} />}
@@ -18,6 +17,6 @@ const PersonCard = ({
     <div>
       <h4>{name}</h4>
     </div>
-  </a>;
+  </Link>;
 
 export default PersonCard;

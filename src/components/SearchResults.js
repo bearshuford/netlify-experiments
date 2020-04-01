@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
 import { TvMovieCard, PersonCard, ErrorBlock } from '.';
 import { useMultisearch } from '../hooks';
+import {AuthContext} from '../AuthContext';
 
 const ResultsSection = ({
   type,
   results,
-  setSeries,
-  setCredits,
 }) =>
   !!results[type] && results[type].length > 0 &&
   <>
@@ -17,22 +17,16 @@ const ResultsSection = ({
         <TvMovieCard
           {...props}
           key={props.id}
-          setSeries={type === 'tv' && setSeries}
+          type={type}
         />
       )
       :
-      results[type].map(props =>
-        <PersonCard
-          {...props}
-          key={props.id}
-          setCredits={setCredits}
-        />
-      )
+      results[type].map(props =>  <PersonCard {...props} key={props.id} />)
     }
   </>;
 
-
-const SearchResults = ({ query, setSeries, setCredits, auth, setAuth }) => {
+const SearchResults = ({ query }) => {
+  const { auth, setAuth } = useContext(AuthContext)
   const { results, loading, error } = useMultisearch(query, auth, setAuth);
 
   if (!!loading) return <h4>'loading...'</h4>;
@@ -40,13 +34,11 @@ const SearchResults = ({ query, setSeries, setCredits, auth, setAuth }) => {
   if (!results) return null;
 
   return <>
-    {['movie', 'tv', 'person'].map((type, i, arr) =>
+    {['movie', 'tv', 'person'].map(type =>
       <ResultsSection
         type={type}
         results={results}
         key={type}
-        setSeries={setSeries}
-        setCredits={setCredits}
       />)}
   </>;
 }

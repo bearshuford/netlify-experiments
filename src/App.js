@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { SearchResults, SeriesDetails, Credits } from './components';
@@ -14,9 +15,6 @@ const defaultVibrate = {
 
 function App() {
   const [query, setQuery] = useState('');
-  const [series, setSeries] = useState('');
-  const [credits, setCredits] = useState('');
-  const [title, setTitle] = useState('');
 
   const { setAuth } = useContext(AuthContext);
 
@@ -36,8 +34,7 @@ function App() {
           if (buttons[4].pressed && buttons[5].pressed) {
             joypad.vibrate(gamepad, { ...defaultVibrate, strongMagnitude: .3, startDelay: 50 });
             setTimeout(() => { joypad.vibrate(gamepad, { ...defaultVibrate, strongMagnitude: 1, startDelay: 50, duration: 100 }) }, 700);
-            setTimeout(() => { joypad.vibrate(gamepad, defaultVibrate) }, 900);
-          }
+           }
         }
       });
     }
@@ -51,40 +48,26 @@ function App() {
   }, []);
 
   return <div className='app'>
-    {!!title && <h1>{title}</h1>}
-    {
-      !!series ?
-        <SeriesDetails
-          id={series}
-          closeDetails={() => setSeries('')}
-        />
-        : !!credits ?
-          <Credits
-            id={credits}
-            closeDetails={() => { setCredits(''); setTitle(''); }}
-            setSeries={id => setSeries(id)}
-          />
-          :
-          <>
-            <label>
-              search for movies and tv shows
+    <Router>
+      <Route path='/series/:id' component={SeriesDetails} />
+      <Route path='/person/:id' component={Credits} />
+      <Route path='/' exact>
+        <>
+          <label>
+            search for movies and tv shows
           </label>
-            <input
-              autoFocus
-              onChange={({ target }) => setQuery(target.value)}
-              value={query}
-              tabIndex='0'
-            />
-            {query && query.length > 0 &&
-              <SearchResults
-                query={query}
-                setSeries={id => setSeries(id)}
-                setCredits={(id, title) => { setCredits(id); setTitle(title); }}
-              />
-            }
-          </>
-    }
-
+          <input
+            autoFocus
+            onChange={({ target }) => setQuery(target.value)}
+            value={query}
+            tabIndex='0'
+          />
+          {query && query.length > 0 &&
+            <SearchResults query={query} />
+          }
+        </>
+      </Route>
+    </Router>
     <ToastContainer />
   </div>
 };

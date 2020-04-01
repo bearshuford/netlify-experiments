@@ -15,8 +15,9 @@ const useMultisearch = query => {
   useEffect(() => {
     setLoading(true);
     setError(null);
-
-    const apiUrl = `.netlify/functions/multisearch?query=${query}&auth=${auth}`;
+    
+    const { origin } = window.location;
+    const apiUrl = `${origin}/.netlify/functions/multisearch?query=${query}&auth=${auth}`;
     
     fetch(apiUrl, { mode: 'cors' })
     .then(res => res.json())

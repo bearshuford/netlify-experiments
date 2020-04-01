@@ -1,4 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+const LinkOrAnchor = ({ type, children, to, onClick, ...props }) => {
+  if (type === 'movie')
+    return <a href='# ' onClick={onClick} {...props}>
+      {children}
+    </a>;
+  else 
+    return <Link {...props} to={to}>{children}</Link>
+}
 
 const TvMovieCard = ({
   id,
@@ -6,17 +16,13 @@ const TvMovieCard = ({
   poster,
   overview,
   stream,
-  setSeries,
-  isFocused
+  type
 }) => {
-  return <a
+  return <LinkOrAnchor
     tabIndex='0'
-    href='# '
-    className={'movie-item search-result ' + (!!stream && 'stream') + (!!setSeries && ' series')}
-    onClick={() => {
-      if (!!setSeries) setSeries(id)
-      else if (!!stream) window.location = stream;
-    }}
+    to={`/series/${id}`}
+    className={'movie-item search-result ' + (!!stream && 'stream')}
+    onClick={() => { window.location = stream; }}
   >
     <div className='image-wrapper'>
       {!!poster && <img alt={name + ' poster'} src={poster} />}
@@ -25,6 +31,6 @@ const TvMovieCard = ({
       <h4>{name}</h4>
       <p>{overview}</p>
     </div>
-  </a>;
+  </LinkOrAnchor>;
 }
 export default TvMovieCard;

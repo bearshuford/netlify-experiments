@@ -9,14 +9,13 @@ const useSeriesDetails = id => {
   const [error, setError] = useState(null);
 
   const { auth } = useContext(AuthContext)
-  
-  // TODO: handle empty string
 
   useEffect(() => {
     setLoading(true);
     setError(null);
 
-    const apiUrl = `.netlify/functions/personcredits?id=${id}&auth=${auth}`
+    const { origin } = window.location;
+    const apiUrl = `${origin}/.netlify/functions/personcredits?id=${id}&auth=${auth}`
   
     fetch(apiUrl, { mode: 'cors' })
       .then(res => res.json())

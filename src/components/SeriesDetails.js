@@ -1,9 +1,12 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
+
 import { ErrorBlock } from '.'
 import { useSeriesDetails } from '../hooks';
 
-const SeriesDetails = ({ id, auth }) => {
-  const { results, loading, error } = useSeriesDetails(id, auth);
+const SeriesDetails = () => {
+  const { id } = useParams();
+  const { results, loading, error } = useSeriesDetails(id);
   const {
     name,
     seasons,
