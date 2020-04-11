@@ -9,6 +9,7 @@ const Vid = ({ show, url, children, ...props }) => {
       width="100%"
       height="250px"
       id="streamIframe"
+      sandbox="allow-scripts"
       style={{ display: "initial", position: "relative" }}
       allowFullScreen
       {...props}
