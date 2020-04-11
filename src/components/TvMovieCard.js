@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Vid } from '.';
 
 const LinkOrAnchor = ({ type, children, to, onClick, ...props }) => {
-  if (type === 'movie')
+  if (type === 'movies')
     return <a
       tabIndex='0'
       onClick={onClick}
@@ -24,18 +24,17 @@ const TvMovieCard = ({
   name,
   poster,
   overview,
-  stream,
+  trailer,
   type,
 }) => {
-  const [showStream, setShowStream] = useState(false);
-
+  const [showTrailer, setShowTrailer] = useState(false);
   return <LinkOrAnchor
     to={`/series/${id}`}
-    className={'movie-item search-result ' + (!!stream && 'stream')}
-    onClick={!!stream ? () => setShowStream(true) : null}
+    className={'movie-item search-result ' + (!!trailer && 'trailer')}
+    onClick={!!trailer ? () => setShowTrailer(true) : null}
     type={type}
   >
-    <Vid url={stream} show={showStream && !!stream}>
+    <Vid url={trailer} show={showTrailer && !!trailer}>
       <div className='image-wrapper'>
         {!!poster && <img alt={name + ' poster'} src={poster} />}
       </div>

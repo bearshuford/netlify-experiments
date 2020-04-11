@@ -1,35 +1,39 @@
-import { useEffect, useState, useContext } from 'react'
-import { processSeriesDetails } from '../utils';
+import { useEffect, useState, useContext } from "react";
 
-import { AuthContext } from '../AuthContext';
+import { AuthContext } from "../AuthContext";
 
-const useSeriesDetails = id => {
-  const [results, setResults] = useState({});
+const useSeriesDetails = (id) => {
+  const [details, setDetails] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { auth } = useContext(AuthContext);
+  const { special, token } = useContext(AuthContext);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
-
     const { origin } = window.location;
-    const apiUrl = `${origin}/.netlify/functions/seriesdetails?id=${id}&auth=${auth}`
+    let fetchDetails = async () => {
+      setLoading(true);
+      setError(null);
+      const apiUrl = `${origin}/.netlify/functions/seriesdetails?id=${id}&special=${special}`;
+      const headers = {
+        token: token,
+        "Content-Type": "application/json",
+      };
 
-    fetch(apiUrl, { mode: 'cors' })
-      .then(res => res.json())
-      .then(results => {
-        setLoading(false)
-        setResults(processSeriesDetails(results));
-      })
-      .catch(err => {
-        setError(err)
-        setLoading(false)
-      })
-  }, [id, auth])
+      try {
+        let res = await fetch(apiUrl, { headers, mode: "cors" });
+        let results = await res.json();
+        setLoading(false);
+        setDetails(results);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+    if (!!token) fetchDetails();
+  }, [id, special, token]);
 
-  return { results, loading, error }
-}
+  return { details, status: { loading, error } };
+};
 
 export default useSeriesDetails;

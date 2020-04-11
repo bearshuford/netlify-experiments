@@ -1,5 +1,5 @@
-import useMultisearch from './multisearch';
-import useSeriesDetails from './seriesdetails';
-import useCredits from './personcredits';
+import useMovieSearch from "./moviesearch";
+import useTvSearch from "./tvsearch";
+import useSeriesDetails from "./seriesdetails";
 
-export { useMultisearch, useSeriesDetails, useCredits };
+export { useMovieSearch, useTvSearch, useSeriesDetails };
